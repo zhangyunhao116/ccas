@@ -5,7 +5,7 @@
 
 ## Introduction
 
-A simple utility used for convert string between camel-case and snake-case in python3.
+A simple utility used for convert object between camel-case and snake-case in python3.
 
 
 
@@ -22,6 +22,10 @@ Alternatively, you can just drop `ccas.py` file into your project—it is self-c
 
 
 ## QuickStart
+
+Conversion supports only **dict**,**list**,**tuple**,**str**
+
+
 
 ```python3
 from ccas import camel_to_snake, snake_to_camel
