@@ -113,13 +113,13 @@ def snake_to_camel_base(string: str, lower_first=True) -> str:
 
 
 @lru_cache(maxsize=32)
-def dumps_and_camel_to_snake(raw_json: str):
+def dumps_and_camel_to_snake(raw_json: str or bytes):
     """WARNING: This method may cause some memory problems."""
     return camel_to_snake(json.loads(raw_json))
 
 
 @lru_cache(maxsize=32)
-def dumps_and_snake_to_camel(raw_json: str, lower_first=True):
+def dumps_and_snake_to_camel(raw_json: str or bytes, lower_first=True):
     """WARNING: This method may cause some memory problems."""
     return snake_to_camel(json.loads(raw_json), lower_first=lower_first)
 
