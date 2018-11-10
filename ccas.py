@@ -1,6 +1,11 @@
 from functools import lru_cache, partial
 
-__all__ = ('camel_to_snake', 'snake_to_camel')
+try:
+    import ujson as json
+except ImportError:
+    import json
+
+__all__ = ('camel_to_snake', 'snake_to_camel', 'dumps_and_camel_to_snake', 'dumps_and_snake_to_camel')
 
 
 @lru_cache(maxsize=512)
@@ -105,6 +110,18 @@ def snake_to_camel_base(string: str, lower_first=True) -> str:
     res = bytearray(res).decode('ascii')
 
     return res
+
+
+@lru_cache(maxsize=32)
+def dumps_and_camel_to_snake(raw_json: str):
+    """WARNING: This method may cause some memory problems."""
+    return camel_to_snake(json.loads(raw_json))
+
+
+@lru_cache(maxsize=32)
+def dumps_and_snake_to_camel(raw_json: str, lower_first=True):
+    """WARNING: This method may cause some memory problems."""
+    return snake_to_camel(json.loads(raw_json), lower_first=lower_first)
 
 
 def convert_json(obj, fn: snake_to_camel_base or camel_to_snake_base):
