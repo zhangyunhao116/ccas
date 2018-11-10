@@ -1,3 +1,6 @@
 .idea/*
 .DS_Store
 *.pyc
+_ccas.c
+test.py
+test.json

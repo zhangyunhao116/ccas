@@ -1,11 +1,12 @@
-from functools import partial
+from functools import lru_cache, partial
 
 __all__ = ('camel_to_snake', 'snake_to_camel')
 
 
+@lru_cache(maxsize=512)
 def camel_to_snake_base(string: str) -> str:
     """Base function to convert an camel-case string to snake-case string."""
-    res = bytearray()
+    res = []
 
     # For speed up, wo don't check type here, but raise a AttributeError.
     byte = string.encode('ascii')
@@ -42,14 +43,15 @@ def camel_to_snake_base(string: str) -> str:
             res.append(byte[_index])
             _index += 1
 
-    res = res.decode('ascii')
+    res = bytearray(res).decode('ascii')
 
     return res
 
 
+@lru_cache(maxsize=512)
 def snake_to_camel_base(string: str, lower_first=True) -> str:
     """Base function to convert an snake-case string to camel-case string."""
-    res = bytearray()
+    res = []
 
     # For speed up, wo don't check type here, but raise a AttributeError.
     byte = string.encode('ascii')
@@ -100,7 +102,7 @@ def snake_to_camel_base(string: str, lower_first=True) -> str:
             res.append(byte[_index])
             _index += 1
 
-    res = res.decode('ascii')
+    res = bytearray(res).decode('ascii')
 
     return res
 
