@@ -1,12 +1,14 @@
-from functools import partial
+from functools import lru_cache, partial
 
 try:
     import ujson as json
 except ImportError:
     import json
 
-__all__ = ('camel_to_snake', 'snake_to_camel', 'camel_to_snake_base', 'snake_to_camel_base',
-           'loads_and_camel_to_snake', 'loads_and_snake_to_camel')
+__all__ = ('camel_to_snake', 'snake_to_camel', 'camel_to_snake_base',
+           'snake_to_camel_base', 'loads_and_camel_to_snake', 'loads_and_snake_to_camel',
+           'camel_to_snake_lru', 'snake_to_camel_lru', 'camel_to_snake_base_lru',
+           'snake_to_camel_base_lru', 'loads_and_camel_to_snake_lru', 'loads_and_snake_to_camel_lru')
 
 
 def camel_to_snake_base(string: str) -> str:
@@ -121,31 +123,35 @@ def loads_and_snake_to_camel(raw_json: str or bytes, lower_first=True):
     return snake_to_camel(json.loads(raw_json), lower_first=lower_first)
 
 
-def convert_json(obj, fn: snake_to_camel_base or camel_to_snake_base):
+def _convert_json(obj, fn: snake_to_camel_base or camel_to_snake_base):
     if isinstance(obj, list):
-        return [convert_json(i, fn) for i in obj]
+        return [_convert_json(i, fn) for i in obj]
     elif isinstance(obj, tuple):
-        return tuple((convert_json(i, fn) for i in obj))
+        return tuple((_convert_json(i, fn) for i in obj))
     elif isinstance(obj, dict):
-        return {fn(k): convert_json(v, fn) for k, v in obj.items()}
+        return {fn(k): _convert_json(v, fn) for k, v in obj.items()}
     return obj
 
 
-def camel_to_snake(obj):
-    fn = camel_to_snake_base
+def _convert_api(obj, fn, **kwargs):
+    fn = partial(fn, **kwargs)
     if isinstance(obj, str):
         return fn(obj)
     elif isinstance(obj, (list, tuple, dict)):
-        return convert_json(obj, fn)
+        return _convert_json(obj, fn)
     else:
         return obj
 
 
-def snake_to_camel(obj, lower_first=True):
-    fn = partial(snake_to_camel_base, lower_first=lower_first)
-    if isinstance(obj, str):
-        return fn(obj)
-    elif isinstance(obj, (list, tuple, dict)):
-        return convert_json(obj, fn)
-    else:
-        return obj
+camel_to_snake = partial(_convert_api, fn=camel_to_snake_base)
+snake_to_camel = partial(_convert_api, fn=snake_to_camel_base)
+
+"""LRU API"""
+camel_to_snake_base_lru = lru_cache(maxsize=64)(camel_to_snake_base)
+camel_to_snake_lru = partial(_convert_api, fn=camel_to_snake_base_lru)
+
+snake_to_camel_base_lru = lru_cache(maxsize=64)(snake_to_camel_base)
+snake_to_camel_lru = partial(_convert_api, fn=snake_to_camel_base_lru)
+
+loads_and_camel_to_snake_lru = lru_cache(maxsize=64)(loads_and_camel_to_snake)
+loads_and_snake_to_camel_lru = lru_cache(maxsize=64)(loads_and_snake_to_camel)

@@ -4,4 +4,5 @@ include *.md
 
 exclude test.py
 exclude demos.py
+exclude bench_mark.py
 exclude *.pyc

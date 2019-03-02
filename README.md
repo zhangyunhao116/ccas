@@ -23,7 +23,7 @@ Alternatively, you can just drop `ccas.py` file into your project—it is self-c
 
 ## QuickStart
 
-Conversion supports only **dict**,**list**,**tuple**,**str**
+Conversion supports only **dict**,**list**,**tuple**,**str** 
 
 
 
@@ -80,19 +80,40 @@ print(camel_to_snake(123))
 
 
 
-#### With lru_cache
+#### LRU API
+
+Default maxsize = 64
 
 ```
 """With lru_cache"""
-from functools import lru_cache
+from ccas import (camel_to_snake_base_lru, camel_to_snake_lru,
+                  loads_and_camel_to_snake_lru, loads_and_snake_to_camel_lru,
+                  snake_to_camel_base_lru, snake_to_camel_lru)
 
-camel_to_snake_with_lru = lru_cache(maxsize=64)(camel_to_snake)
-snake_to_camel_with_lru = lru_cache(maxsize=64)(snake_to_camel)
+```
 
-print(camel_to_snake_with_lru('CamelToSnake'))
-# camel_to_snake
 
-print(snake_to_camel_with_lru('camel_to_snake'))
-# camelToSnake
+
+## Benchmark
+
+**Run benchmark.py**
+
+Enviroment :
+
+*macos 10.13.6 
+
+*python3.7.1
+
+*2.3 GHz Intel Core i5
+
+```
+camel_to_snake_base 100000 times:  0.6237597465515137
+camel_to_snake_base_lru 100000 times:  0.01707601547241211 
+
+camel_to_snake 100000 times:  0.8497648239135742
+camel_to_snake_lru 100000 times:  0.26767992973327637 
+
+loads_and_camel_to_snake 100000 times:  0.6832809448242188
+loads_and_camel_to_snake_lru 100000 times:  0.012967109680175781 
 ```
 
