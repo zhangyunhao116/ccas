@@ -35,3 +35,13 @@ print(snake_to_camel({'idCard': 'Not work in value.'}))
 
 print(snake_to_camel({'all_people': {'boy_andrew': 'Value', 'girl_alice': 'Value'}}))
 # {'allPeople': {'boyAndrew': 'Value', 'girlAlice': 'Value'}}
+
+"""Others"""
+print(camel_to_snake(None))
+# None
+
+print(camel_to_snake(True))
+# True
+
+print(camel_to_snake(123))
+# 123

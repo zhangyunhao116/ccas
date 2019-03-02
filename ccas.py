@@ -1,14 +1,14 @@
-from functools import lru_cache, partial
+from functools import partial
 
 try:
     import ujson as json
 except ImportError:
     import json
 
-__all__ = ('camel_to_snake', 'snake_to_camel', 'loads_and_camel_to_snake', 'loads_and_snake_to_camel')
+__all__ = ('camel_to_snake', 'snake_to_camel', 'camel_to_snake_base', 'snake_to_camel_base',
+           'loads_and_camel_to_snake', 'loads_and_snake_to_camel')
 
 
-@lru_cache(maxsize=512)
 def camel_to_snake_base(string: str) -> str:
     """Base function to convert an camel-case string to snake-case string."""
     res = []
@@ -53,7 +53,6 @@ def camel_to_snake_base(string: str) -> str:
     return res
 
 
-@lru_cache(maxsize=512)
 def snake_to_camel_base(string: str, lower_first=True) -> str:
     """Base function to convert an snake-case string to camel-case string."""
     res = []
@@ -112,13 +111,11 @@ def snake_to_camel_base(string: str, lower_first=True) -> str:
     return res
 
 
-@lru_cache(maxsize=32)
 def loads_and_camel_to_snake(raw_json: str or bytes):
     """WARNING: This method may cause some memory problems."""
     return camel_to_snake(json.loads(raw_json))
 
 
-@lru_cache(maxsize=32)
 def loads_and_snake_to_camel(raw_json: str or bytes, lower_first=True):
     """WARNING: This method may cause some memory problems."""
     return snake_to_camel(json.loads(raw_json), lower_first=lower_first)
@@ -141,7 +138,7 @@ def camel_to_snake(obj):
     elif isinstance(obj, (list, tuple, dict)):
         return convert_json(obj, fn)
     else:
-        raise TypeError('obj excepted type in ("str","tuple","list","dict") got {}'.format(type(obj)))
+        return obj
 
 
 def snake_to_camel(obj, lower_first=True):
@@ -151,4 +148,4 @@ def snake_to_camel(obj, lower_first=True):
     elif isinstance(obj, (list, tuple, dict)):
         return convert_json(obj, fn)
     else:
-        raise TypeError('obj excepted type in ("str","tuple","list","dict") got {}'.format(type(obj)))
+        return obj

@@ -66,5 +66,33 @@ print(snake_to_camel({'idCard': 'Not work in value.'}))
 print(snake_to_camel({'all_people': {'boy_andrew': 'Value', 'girl_alice': 'Value'}}))
 # {'allPeople': {'boyAndrew': 'Value', 'girlAlice': 'Value'}}
 
+"""Others"""
+print(camel_to_snake(None))
+# None
+
+print(camel_to_snake(True))
+# True
+
+print(camel_to_snake(123))
+# 123
+
+```
+
+
+
+#### With lru_cache
+
+```
+"""With lru_cache"""
+from functools import lru_cache
+
+camel_to_snake_with_lru = lru_cache(maxsize=64)(camel_to_snake)
+snake_to_camel_with_lru = lru_cache(maxsize=64)(snake_to_camel)
+
+print(camel_to_snake_with_lru('CamelToSnake'))
+# camel_to_snake
+
+print(snake_to_camel_with_lru('camel_to_snake'))
+# camelToSnake
 ```
 
