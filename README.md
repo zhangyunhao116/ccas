@@ -107,13 +107,24 @@ Enviroment :
 *3.1 GHz Intel Core i7
 
 ```
-camel_to_snake_base 100000 times:  0.38176393508911133
-camel_to_snake_base_lru 100000 times:  0.0131072998046875 
+---------camel to snake---------
+camel_to_snake_base 100000 times:  0.4019458293914795
+camel_to_snake_base_lru 100000 times:  0.011708259582519531 
 
-camel_to_snake 100000 times:  0.6258797645568848
-camel_to_snake_lru 100000 times:  0.20803093910217285 
+camel_to_snake 100000 times:  0.635347843170166
+camel_to_snake_lru 100000 times:  0.2188711166381836 
 
-loads_and_camel_to_snake 100000 times:  0.6583220958709717
-loads_and_camel_to_snake_lru 100000 times:  0.012808084487915039 
+loads_and_camel_to_snake 100000 times:  0.7058398723602295
+loads_and_camel_to_snake_lru 100000 times:  0.012506961822509766 
+
+---------snake to camel---------
+snake_to_camel_base 100000 times:  0.3905479907989502
+snake_to_camel_base_lru 100000 times:  0.012526273727416992 
+
+snake_to_camel 100000 times:  0.5907618999481201
+snake_to_camel_lru 100000 times:  0.2144930362701416 
+
+loads_and_snake_to_camel 100000 times:  0.6846120357513428
+loads_and_snake_to_camel_lru 100000 times:  0.012782096862792969 
 ```
 
