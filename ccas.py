@@ -12,7 +12,7 @@ __all__ = ('camel_to_snake', 'snake_to_camel', 'camel_to_snake_base',
 
 
 def camel_to_snake_base(string: str) -> str:
-    """Base function to convert an camel-case string to snake-case string."""
+    """Base function to convert a camel-case string to snake-case string."""
     res = []
 
     # For speed up, we don't check type here, but raise a AttributeError here
@@ -136,7 +136,7 @@ def camel_to_snake_base(string: str) -> str:
 
 
 def snake_to_camel_base(string: str, lower_first=True) -> str:
-    """Base function to convert an snake-case string to camel-case string."""
+    """Base function to convert a snake-case string to camel-case string."""
     res = []
 
     # For speed up, we don't check type here, but raise a AttributeError here
