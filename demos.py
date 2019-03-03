@@ -1,4 +1,5 @@
-from ccas import camel_to_snake, snake_to_camel
+from ccas import (camel_to_snake, camel_to_snake_lru, snake_to_camel,
+                  snake_to_camel_lru)
 
 """Camel-case to snake-case."""
 print(camel_to_snake('CamelCaseDemo'))
@@ -15,7 +16,6 @@ print(camel_to_snake({'idCard': 'Not work in value.'}))
 
 print(camel_to_snake({'allPeople': {'BoyAndrew': 'Value', 'GirlAlice': 'Value'}}))
 # {'all_people': {'boy_andrew': 'Value', 'girl_alice': 'Value'}}
-
 
 """Snake-case to camel-case."""
 print(snake_to_camel('snake_case_demo'))
@@ -45,3 +45,13 @@ print(camel_to_snake(True))
 
 print(camel_to_snake(123))
 # 123
+
+"""With LRU"""
+print(camel_to_snake_lru('caseSensitive'))
+# case_sensitive
+
+print(snake_to_camel_lru('case_sensitive'))
+# caseSensitive
+
+print(snake_to_camel_lru('case_sensitive', lower_first=False))
+# CaseSensitive
