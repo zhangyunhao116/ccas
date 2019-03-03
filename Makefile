@@ -12,3 +12,5 @@ test:
 mark:
 	@echo '-----------benchmark-----------'
 	@python3 benchmark.py
+
+benchmark: mark

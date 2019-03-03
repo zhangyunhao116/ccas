@@ -77,36 +77,97 @@ def test_camel_to_snake_base():
 def test_snake_to_camel_base():
     fn = snake_to_camel_base
 
+    # AttributeError
     with pytest.raises(AttributeError):
         fn(123)
 
+    """lower_first = True
+    Small camel-case"""
+
+    # Non-alphabetic
+    assert fn('@#$%') == '@#$%'
+    assert fn('!!!_case') == '!!!case'
+    assert fn('!!!__case__') == '!!!case'
+
+    # All lower case
+    assert fn('case') == 'case'
+
+    # All upper case
+    assert fn('CASE') == 'case'
+
+    # First letter is upper case
+    assert fn('Case') == 'case'
+
+    # Prefixed with underscore
     assert fn('_id') == '_id'
     assert fn('__id') == '__id'
     assert fn('__id_card') == '__idCard'
+    assert fn('__id__card') == '__idCard'
+    assert fn('__ID_card__card') == '__idCardCard'
 
+    # Continuous upper case
     assert fn('OWN_id_card') == 'ownIdCard'
     assert fn('_OWN_id_card') == '_ownIdCard'
 
-    assert fn('@#$%') == '@#$%'
-    assert fn('case') == 'case'
-    assert fn('Page') == 'page'
+    # In general
     assert fn('case_insensitive') == 'caseInsensitive'
-
     assert fn('case_insensitive_dict') == 'caseInsensitiveDict'
     assert fn('Case_insensitive_dict') == 'caseInsensitiveDict'
 
-    # Test big camel-case.
-    assert fn('_id', lower_first=False) == '_Id'
-    assert fn('__id', lower_first=False) == '__Id'
-    assert fn('__id_card', lower_first=False) == '__IdCard'
+    """lower_first = True
+    Big camel-case"""
+    fn_ = partial(fn, lower_first=False)
 
-    assert fn('OWN_id_card', lower_first=False) == 'OWNIdCard'
-    assert fn('_OWN_id_card', lower_first=False) == '_OWNIdCard'
+    # Non-alphabetic
+    assert fn_('@#$%') == '@#$%'
+    assert fn_('!!!_case') == '!!!Case'
+    assert fn_('!!!__case__') == '!!!Case'
 
-    assert fn('@#$%', lower_first=False) == '@#$%'
-    assert fn('case', lower_first=False) == 'Case'
-    assert fn('Case', lower_first=False) == 'Case'
-    assert fn('case_insensitive_dict', lower_first=False) == 'CaseInsensitiveDict'
+    # All lower case
+    assert fn_('case') == 'Case'
+
+    # All upper case
+    assert fn_('CASE') == 'CASE'
+
+    # First letter is upper case
+    assert fn_('Case') == 'Case'
+
+    # Prefixed with underscore
+    assert fn_('_id') == '_Id'
+    assert fn_('__id') == '__Id'
+    assert fn_('__id_card') == '__IdCard'
+    assert fn_('__id__card') == '__IdCard'
+    assert fn_('__ID_card__card') == '__IDCardCard'
+
+    # Continuous upper case
+    assert fn_('OWN_id_card') == 'OWNIdCard'
+    assert fn_('_OWN_id_card') == '_OWNIdCard'
+
+    # In general
+    assert fn_('case_insensitive') == 'CaseInsensitive'
+    assert fn_('case_insensitive_dict') == 'CaseInsensitiveDict'
+    assert fn_('Case_insensitive_dict') == 'CaseInsensitiveDict'
+
+    """Camel-case to camel-case"""
+    s = 'CaseInsensitiveDict'
+    assert fn(s) == 'caseInsensitiveDict'
+    assert fn_(s) == s
+
+    s = '_CaseInsensitiveDict'
+    assert fn(s) == '_caseInsensitiveDict'
+    assert fn_(s) == s
+
+    s = '_CASE'
+    assert fn(s) == '_case'
+    assert fn_(s) == s
+
+    s = 'caseInsensitive'
+    assert fn(s) == s
+    assert fn_(s) == 'CaseInsensitive'
+
+    s = '_caseInsensitive'
+    assert fn(s) == s
+    assert fn_(s) == '_CaseInsensitive'
 
 
 def test_camel_to_snake():

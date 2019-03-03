@@ -30,7 +30,7 @@ if sys.argv[-1] in ('flake8', 'flake'):
 
 setup(
     name='ccas',
-    version='0.0.3',
+    version='0.0.4',
 
     author='ZYunH',
     author_email='zyunhjob@163.com',

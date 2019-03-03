@@ -139,48 +139,62 @@ def snake_to_camel_base(string: str, lower_first=True) -> str:
     """Base function to convert an snake-case string to camel-case string."""
     res = []
 
-    # For speed up, we don't check type here, but raise a AttributeError.
+    # For speed up, we don't check type here, but raise a AttributeError here
     byte = string.encode('ascii')
 
     max_index = len(byte)
 
     _index = 0
 
+    # Add all "_" in front of string
     while _index < max_index and byte[_index] == 95:
-        # Add char "_" in header of string.
         res.append(95)
         _index += 1
+
+    # Add all non-alpha characters exclude "_"
+    # for purpose of find the first letter
+    while _index < max_index and not (65 <= byte[_index] <= 90) and not (97 <= byte[_index] <= 122):
+        if byte[_index] == 95:
+            _index += 1
+            continue
+        res.append(byte[_index])
+        _index += 1
+
     if lower_first:
+        # Lower first word if possible
         while _index < max_index:
-            # Lower first word.
-            if 65 <= byte[_index] <= 90:  # This char is Upper case.
+            if 65 <= byte[_index] <= 90:
                 res.append(byte[_index] + 32)
                 _index += 1
             else:
                 break
     else:
-        # Try upper first case.
-        if 97 <= byte[_index] <= 122:
+        # Upper first character if possible (just once)
+        if _index < max_index and 97 <= byte[_index] <= 122:
             # Char is lower case.
             res.append(byte[_index] - 32)
             _index += 1
 
     while _index < max_index:
         if byte[_index] == 95:
-            # Catch char "_".
-            # Remove this char "_" and find next char != "_"
+            # Catch char "_" then skip it
             _index += 1
+
+            # Ignore all following "_"
             while _index < max_index and byte[_index] == 95:
                 _index += 1
-            # Then try to upper case this char(if it is lower).
-            if not (_index < max_index):
-                break  # Last char is underscore.
+
+            # Break if last char is underscore
+            if _index >= max_index:
+                break
+
+            # Then try to upper case first letter
             if 97 <= byte[_index] <= 122:
                 # Char is lower case.
                 res.append(byte[_index] - 32)
                 _index += 1
             else:
-                # May be upper case or others.
+                # May be upper case or others just append it
                 res.append(byte[_index])
                 _index += 1
         else:
