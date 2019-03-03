@@ -104,16 +104,16 @@ Enviroment :
 
 *python3.7.1
 
-*2.3 GHz Intel Core i5
+*3.1 GHz Intel Core i7
 
 ```
-camel_to_snake_base 100000 times:  0.6237597465515137
-camel_to_snake_base_lru 100000 times:  0.01707601547241211 
+camel_to_snake_base 100000 times:  0.38176393508911133
+camel_to_snake_base_lru 100000 times:  0.0131072998046875 
 
-camel_to_snake 100000 times:  0.8497648239135742
-camel_to_snake_lru 100000 times:  0.26767992973327637 
+camel_to_snake 100000 times:  0.6258797645568848
+camel_to_snake_lru 100000 times:  0.20803093910217285 
 
-loads_and_camel_to_snake 100000 times:  0.6832809448242188
-loads_and_camel_to_snake_lru 100000 times:  0.012967109680175781 
+loads_and_camel_to_snake 100000 times:  0.6583220958709717
+loads_and_camel_to_snake_lru 100000 times:  0.012808084487915039 
 ```
 

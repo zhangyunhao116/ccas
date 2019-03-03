@@ -15,36 +15,116 @@ def camel_to_snake_base(string: str) -> str:
     """Base function to convert an camel-case string to snake-case string."""
     res = []
 
-    # For speed up, we don't check type here, but raise a AttributeError.
+    # For speed up, we don't check type here, but raise a AttributeError here
     byte = string.encode('ascii')
 
     max_index = len(byte)
 
     _index = 0
 
+    # Append all non-alphabetic characters in front of string
+    # for purpose of find the first letter
+    while _index < max_index and not (65 <= byte[_index] <= 90) and not (97 <= byte[_index] <= 122):
+        res.append(byte[_index])
+        _index += 1
+
+    # If first letter is upper case, do not need begins with "_"
+    if _index < max_index and 65 <= byte[_index] <= 90:
+
+        # Convert it to lower case and check next char
+        res.append(byte[_index] + 32)
+        _index += 1
+
+        # Check if next char also upper case
+        while _index < max_index and 65 <= byte[_index] <= 90:
+            if _index + 1 < max_index:
+                # There are next two chars
+                if 65 <= byte[_index + 1] <= 90:
+                    # Next two char are all upper case
+                    #  we just lower the first one and append
+                    # it to result (in this condition
+                    # it must not the first upper case
+                    # in a camel-case word)
+                    res.append(byte[_index] + 32)
+                    _index += 1
+                elif not (97 <= byte[_index + 1] <= 122):
+                    # The first one is upper case but
+                    # next one is non-alphabetic character
+                    # so lower first one and append it
+                    res.append(byte[_index] + 32)
+                    res.append(byte[_index + 1])
+                    _index += 2
+                else:
+                    # The first one is upper case and
+                    # next one is lower case
+                    # it means that first one is
+                    # the first upper case in camel-case
+                    # word
+                    if res[-1] != 95:
+                        res.append(95)
+                    res.append(byte[_index] + 32)
+                    res.append(byte[_index + 1])
+                    _index += 2
+                    break
+            else:
+                # Next char is last one and it is upper case
+                # so lower it and append to the result
+                res.append(byte[_index] + 32)
+                _index += 1
+                break
+
     while _index < max_index:
         if 65 <= byte[_index] <= 90:
-            # Upper case.
-            if _index != 0:
-                res.append(95)  # Add char "_".
+            # Upper case, we should add
+            # "_" in front of it normally
+
+            # If last one char in the result
+            # is "_" we don't add extra
+            # "_" in this condition
+            if res[-1] != 95:
+                res.append(95)
+
             res.append(byte[_index] + 32)
             _index += 1
+
+            # Check if next char also upper case
             while _index < max_index and 65 <= byte[_index] <= 90:
-                # Check if next char also upper case.
                 if _index + 1 < max_index:
-                    # Have next two char
+                    # There are next two chars
                     if 65 <= byte[_index + 1] <= 90:
-                        # Next two char all upper case.
+                        # Next two char are all upper case
+                        #  we just lower the first one and append
+                        # it to result (in this condition
+                        # it must not the first upper case
+                        # in a camel-case word)
                         res.append(byte[_index] + 32)
                         _index += 1
+                    elif not (97 <= byte[_index + 1] <= 122):
+                        # The first one is upper case but
+                        # next one is non-alphabetic character
+                        # so lower first one and append it
+                        res.append(byte[_index] + 32)
+                        res.append(byte[_index + 1])
+                        _index += 2
                     else:
-                        # Next char is upper case, but the next char's next char is not.
+                        # The first one is upper case and
+                        # next one is lower case
+                        # it means that first one is
+                        # the first upper case in camel-case
+                        # word
+                        if res[-1] != 95:
+                            res.append(95)
+                        res.append(byte[_index] + 32)
+                        res.append(byte[_index + 1])
+                        _index += 2
                         break
                 else:
-                    # Next char is last one.
+                    # Next char is last one and it is upper case
+                    # so lower it and append to the result
                     res.append(byte[_index] + 32)
                     _index += 1
                     break
+
         else:
             # Lower case or others.
             res.append(byte[_index])
