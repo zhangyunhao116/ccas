@@ -1,7 +1,6 @@
 from functools import partial
 
 import pytest
-
 from ccas import (camel_to_snake, camel_to_snake_base, snake_to_camel,
                   snake_to_camel_base)
 

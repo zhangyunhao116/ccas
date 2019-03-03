@@ -106,7 +106,9 @@ snake_to_camel_base(obj:str, lower_first=True)
 
 ##### LRU API
 
-Default maxsize = 64
+Default maxsize=128 for API which do not begins with "loads_and"
+
+If API begins with "loads_and" it's default maxsize=64
 
 ```
 camel_to_snake_lru(obj:str or list or tuple or dict)

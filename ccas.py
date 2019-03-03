@@ -136,7 +136,13 @@ def camel_to_snake_base(string: str) -> str:
 
 
 def snake_to_camel_base(string: str, lower_first=True) -> str:
-    """Base function to convert a snake-case string to camel-case string."""
+    """Base function to convert a snake-case string to camel-case string.
+
+    if lower_first=True (default) it is lower camel case
+    (initial lowercase letter, also known as Dromedary case)
+
+    if lower_first=False it is upper camel case
+    (initial uppercase letter, also known as Pascal case)"""
     res = []
 
     # For speed up, we don't check type here, but raise a AttributeError here
@@ -208,12 +214,10 @@ def snake_to_camel_base(string: str, lower_first=True) -> str:
 
 
 def loads_and_camel_to_snake(raw_json: str or bytes):
-    """WARNING: This method may cause some memory problems."""
     return camel_to_snake(json.loads(raw_json))
 
 
 def loads_and_snake_to_camel(raw_json: str or bytes, lower_first=True):
-    """WARNING: This method may cause some memory problems."""
     return snake_to_camel(json.loads(raw_json), lower_first=lower_first)
 
 
@@ -241,10 +245,10 @@ camel_to_snake = partial(_convert_api, fn=camel_to_snake_base)
 snake_to_camel = partial(_convert_api, fn=snake_to_camel_base)
 
 """LRU API"""
-camel_to_snake_base_lru = lru_cache(maxsize=64)(camel_to_snake_base)
+camel_to_snake_base_lru = lru_cache(maxsize=128)(camel_to_snake_base)
 camel_to_snake_lru = partial(_convert_api, fn=camel_to_snake_base_lru)
 
-snake_to_camel_base_lru = lru_cache(maxsize=64)(snake_to_camel_base)
+snake_to_camel_base_lru = lru_cache(maxsize=128)(snake_to_camel_base)
 snake_to_camel_lru = partial(_convert_api, fn=snake_to_camel_base_lru)
 
 loads_and_camel_to_snake_lru = lru_cache(maxsize=64)(loads_and_camel_to_snake)
