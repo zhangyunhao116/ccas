@@ -80,8 +80,10 @@ def test_snake_to_camel_base():
     with pytest.raises(AttributeError):
         fn(123)
 
-    """lower_first = True
-    Small camel-case"""
+    """
+    Small camel-case
+    lower_first = True
+    """
 
     # Non-alphabetic
     assert fn('@#$%') == '@#$%'
@@ -113,8 +115,10 @@ def test_snake_to_camel_base():
     assert fn('case_insensitive_dict') == 'caseInsensitiveDict'
     assert fn('Case_insensitive_dict') == 'caseInsensitiveDict'
 
-    """lower_first = True
-    Big camel-case"""
+    """
+    Big camel-case
+    lower_first = False
+    """
     fn_ = partial(fn, lower_first=False)
 
     # Non-alphabetic
