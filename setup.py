@@ -30,7 +30,7 @@ if sys.argv[-1] in ('flake8', 'flake'):
 
 setup(
     name='ccas',
-    version='0.0.5',
+    version='0.0.6',
 
     author='ZYunH',
     author_email='zyunhjob@163.com',
@@ -63,4 +63,5 @@ setup(
     packages=find_packages(),
     include_package_data=True,
 
+    python_requires=">=3.4"
 )
